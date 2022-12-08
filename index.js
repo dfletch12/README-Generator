@@ -2,10 +2,39 @@ const fs = require('fs');
 const inquirer = require('inquirer');
 const { default: Choices } = require('inquirer/lib/objects/choices');
 const { writeFile } = require('fs').promises;
+let licenseBadge
+
+function makeBadge(license) {
+    if (license == 'MIT') {
+        return '[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)'
+    }
+    if (license == 'GPLv2') {
+        return '[![License: GPL v2](https://img.shields.io/badge/License-GPL_v2-blue.svg)](https://www.gnu.org/licenses/old-licenses/gpl-2.0.en.html)'
+    }
+    if (license == 'GPLv3') {
+        return '[![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)'
+    }
+    if (license == 'APACHE') {
+        return '[![License](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)'
+    }
+    if (license == 'BSD 3') {
+        return '[![License](https://img.shields.io/badge/License-BSD_3--Clause-blue.svg)](https://opensource.org/licenses/BSD-3-Clause)'
+    }
+    if (license == 'BSD 2') {
+        return '[![License](https://img.shields.io/badge/License-BSD_2--Clause-orange.svg)](https://opensource.org/licenses/BSD-2-Clause)'
+    }
+    if (license == 'LGPLv3') {
+        return '[![License: LGPL v3](https://img.shields.io/badge/License-LGPL_v3-blue.svg)](https://www.gnu.org/licenses/lgpl-3.0)'
+    }
+    if (license == 'AGPLv3') {
+        return '[![License: AGPL v3](https://img.shields.io/badge/License-AGPL_v3-blue.svg)](https://www.gnu.org/licenses/agpl-3.0)'
+    }
+}
 
 const loadReadme = ({title, description, installation, usage, license, contributions, tests, username, email}) =>  
     `# ${title}
-   ## Table of Contents
+   ## Table of Contents 
+   ${makeBadge(license)}
    * [Description](#description)
    * [Installation](#installation)
    * [Usage](#usage)
@@ -21,8 +50,8 @@ const loadReadme = ({title, description, installation, usage, license, contribut
    ## Usage
    ${usage}
    ## Licenses
-   ${license}
-   ## Contributing
+   This project is covered with the ${license} license. If you would like more information please click the licensing badge in table of contents.
+   ## Contributions
    ${contributions}
    ## Tests
    ${tests}
@@ -56,8 +85,8 @@ const loadReadme = ({title, description, installation, usage, license, contribut
     {
         name: 'license',
         message: 'What kind of license are you using?',
-        type: 'list-input',
-        choices:['MIT', 'IBM', 'MOZILLA', 'PERL', 'APACHE', 'BOOST', 'NO LICENSE']
+        type: 'list',
+        choices:['MIT', 'GPLv2', 'GPLv3', 'BSD 3', 'BSD 2', 'LGPLv3', 'NO LICENSE']
     },
     {
         name: 'contributions',
